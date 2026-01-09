@@ -1,11 +1,52 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Panel from "../components/Panel.astro";
+import Home from "../components/Home.astro";
+import About from "../components/About.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Catherine — Portfolio"
+  description="Portfolio full-stack en Angular y Spring Boot"
+>
+  <div
+    class="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-br from-[#0b1324] via-[#0f172a] to-[#020617]"
+  >
+  </div>
+
+  <div class="min-h-screen px-3 sm:px-6 pt-0 sm:pt-1 pb-6 sm:pb-8">
+    <Panel>
+      <div class="pt-2 md:pt-3 pb-12 md:pb-16">
+        <Home />
+
+        <div class="section-sep-wrap">
+          <div class="section-sep" aria-hidden="true"></div>
+        </div>
+
+        <About />
+
+        <div class="section-sep-wrap">
+          <div class="section-sep" aria-hidden="true"></div>
+        </div>
+
+        <Experience />
+
+        <div class="section-sep-wrap">
+          <div class="section-sep" aria-hidden="true"></div>
+        </div>
+
+        <Projects />
+
+        <div class="section-sep-wrap">
+          <div class="section-sep" aria-hidden="true"></div>
+        </div>
+
+        <Skills />
+      </div>
+    </Panel>
+  </div>
 </Layout>

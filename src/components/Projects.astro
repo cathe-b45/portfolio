@@ -1,0 +1,208 @@
+<section id="proyectos" class="scroll-mt-24 proj-anim">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <h2
+      class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-100 text-center typing"
+      data-text="Proyectos"
+    >
+    </h2>
+
+    <div
+      class="mt-4 w-16 h-1.5 bg-yellow-400 rounded-full mx-auto reveal proj-bar"
+    >
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-12">
+      <article
+        class="project-card grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-center reveal proj-card"
+        style="--i:0;"
+      >
+        <!-- Imagen -->
+        <div class="project-image">
+          <img
+            src="/projects/ventitest.png"
+            alt="VentiTest — aplicación de tests desarrollada con Angular y PrimeNG"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Contenido -->
+        <div>
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-bold text-lg text-slate-100">
+              VentiTest — App de tests
+            </h3>
+            <span
+              class="text-xs px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200"
+            >
+              Personal
+            </span>
+          </div>
+
+          <p class="text-slate-300 mt-2">
+            Aplicación web para estudiar con tests por asignaturas, desarrollada
+            con Angular y PrimeNG. Incluye modo aleatorio y seguimiento de
+            aciertos para practicar tipo examen.
+          </p>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="tag">Angular</span>
+            <span class="tag">PrimeNG</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+
+          <div class="mt-5 flex gap-3">
+            <a
+              class="btn-yellow-glass"
+              href="https://cathe-b45.github.io/TESTS/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ver Proyecto
+            </a>
+          </div>
+
+          <div class="mt-4 text-xs text-slate-400">
+            Funcionalidades: tests por asignatura, modo aleatorio y seguimiento
+            de resultados.
+          </div>
+        </div>
+      </article>
+
+      <article
+        class="project-card grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-center reveal proj-card"
+        style="--i:1;"
+      >
+        <!-- Imagen -->
+        <div class="project-image">
+          <img
+            src="/projects/ipokemon.png"
+            alt="IPOkemon — aplicación de escritorio en C# con WPF"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Contenido -->
+        <div>
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-bold text-lg text-slate-100">
+              IPOkemon — Batallas Pokémon
+            </h3>
+            <span
+              class="text-xs px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-200"
+            >
+              Académico · Equipo
+            </span>
+          </div>
+
+          <p class="text-slate-300 mt-2">
+            Proyecto del laboratorio de IPO 2: aplicación de escritorio
+            desarrollada en .NET y C# para simular batallas entre Pokémon con
+            interfaz gráfica interactiva.
+          </p>
+
+          <p class="text-slate-300 mt-3 text-sm">
+            Trabajo realizado en equipo de <span
+              class="text-slate-100 font-medium">3 personas</span
+            >, colaborando en diseño de la interfaz y lógica del juego.
+          </p>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="tag">.NET</span>
+            <span class="tag">C#</span>
+            <span class="tag">WPF</span>
+            <span class="tag">Desktop UI</span>
+          </div>
+
+          <div class="mt-5 flex gap-3">
+            <a
+              class="btn-yellow-glass"
+              href="https://github.com/Javit-Dev/IPOkemon"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ver código
+            </a>
+          </div>
+
+          <div class="mt-4 text-xs text-slate-400">
+            Proyecto académico orientado a diseño de interfaces y trabajo en
+            equipo.
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ✅ Observer con replay (sales y vuelves → se reanima) -->
+  <script is:inline>
+    (() => {
+      const root = document.querySelector(".proj-anim");
+      if (!root) return;
+
+      const targets = root.querySelectorAll(".reveal");
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+            } else {
+              e.target.classList.remove("is-visible");
+            }
+          }
+        },
+        {
+          threshold: 0.18,
+          rootMargin: "0px 0px -10% 0px",
+        },
+      );
+
+      targets.forEach((t) => io.observe(t));
+    })();
+  </script>
+</section>
+<script is:inline>
+(() => {
+  const el = document.querySelector("#proyectos .typing");
+  if (!el) return;
+
+  const text = el.dataset.text;
+  let typingTimeout = null;
+
+  const startTyping = () => {
+    el.textContent = "";
+    el.classList.remove("done");
+
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+        typingTimeout = setTimeout(type, 90);
+      } else {
+        el.classList.add("done");
+      }
+    };
+    type();
+  };
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        clearTimeout(typingTimeout);
+        startTyping();
+      } else {
+        clearTimeout(typingTimeout);
+        el.textContent = "";
+        el.classList.remove("done");
+      }
+    },
+    {
+      threshold: 0.6,
+    }
+  );
+
+  io.observe(el);
+})();
+</script>

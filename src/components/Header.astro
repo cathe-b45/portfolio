@@ -1,0 +1,413 @@
+<header class="sticky top-0 z-50 w-full">
+  <div class="w-full">
+    <div class="w-full flex items-center justify-center py-4 px-4">
+      <div
+        class="relative flex items-center justify-between gap-4 w-full max-w-6xl
+               bg-white/5 border border-white/10 backdrop-blur-xl
+               shadow-[0_12px_40px_rgba(0,0,0,0.35)]
+               px-5 md:px-6 rounded-2xl md:rounded-full"
+      >
+        <!-- Brand / mini label -->
+        <div
+          class="text-slate-200/80 font-semibold text-sm tracking-wide select-none"
+        >
+          Catherine
+        </div>
+
+        <!-- Desktop nav -->
+        <nav class="relative hidden md:block">
+          <ul class="flex items-center gap-8 py-3">
+            <li>
+              <a class="navlink is-active" href="#home" data-section="home"
+                >Inicio</a>
+            </li>
+            <li>
+              <a class="navlink" href="#sobre-mi" data-section="sobre-mi"
+                >Sobre mí</a>
+            </li>
+            <li>
+              <a class="navlink" href="#experiencia" data-section="experiencia"
+                >Experiencia</a>
+            </li>
+            <li>
+              <a class="navlink" href="#proyectos" data-section="proyectos"
+                >Proyectos</a>
+            </li>
+            <li>
+              <a class="navlink" href="#habilidades" data-section="habilidades"
+                >Habilidades</a>
+            </li>
+          </ul>
+
+          <span
+            id="nav-indicator"
+            class="absolute bottom-1 left-0 h-[3px] w-0 bg-yellow-400 rounded-full
+                   transition-all duration-300 ease-out"
+            aria-hidden="true"></span>
+        </nav>
+
+        <!-- Mobile button -->
+        <button
+          id="menu-btn"
+          class="md:hidden inline-flex items-center justify-center
+         h-10 w-10 rounded-full
+         bg-white/5 text-slate-100/90
+         hover:bg-white/10 transition"
+          type="button"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile menu (overlay modal) -->
+        <div
+          id="mobile-menu"
+          class="mobile-overlay md:hidden"
+          aria-hidden="true"
+        >
+          <div
+            class="mobile-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú"
+          >
+            <div
+              class="flex items-center justify-between px-4 py-3 border-b border-white/10"
+            >
+              <span class="text-slate-100 font-semibold text-sm"
+                >Navegación</span
+              >
+
+              <button
+                id="menu-close"
+                class="inline-flex items-center justify-center h-9 w-9 rounded-xl
+                       border border-white/10 bg-white/5 text-slate-100/90 hover:bg-white/10 transition"
+                type="button"
+                aria-label="Cerrar menú"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"></path>
+                </svg>
+              </button>
+            </div>
+
+            <ul class="px-2 py-2">
+              <li>
+                <a class="mnavlink" href="#home" data-section="home">Inicio</a>
+              </li>
+              <li>
+                <a class="mnavlink" href="#sobre-mi" data-section="sobre-mi"
+                  >Sobre mí</a>
+              </li>
+              <li>
+                <a
+                  class="mnavlink"
+                  href="#experiencia"
+                  data-section="experiencia">Experiencia</a>
+              </li>
+              <li>
+                <a class="mnavlink" href="#proyectos" data-section="proyectos"
+                  >Proyectos</a>
+              </li>
+              <li>
+                <a
+                  class="mnavlink"
+                  href="#habilidades"
+                  data-section="habilidades">Habilidades</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  /* =========================
+     DESKTOP NAV LINKS
+  ========================= */
+  .navlink {
+    color: rgba(226, 232, 240, 0.52);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.28px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 160ms ease;
+  }
+
+  .navlink:hover {
+    color: rgba(226, 232, 240, 0.7);
+  }
+
+  .navlink.is-active {
+    color: rgba(253, 224, 71, 0.98);
+  }
+
+  /* =========================
+     MOBILE OVERLAY (FONDO)
+     Oscuro REAL, no cristal
+  ========================= */
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: grid;
+    place-items: start center;
+    padding: 92px 14px 18px;
+
+    /* 🔥 fondo oscuro opaco */
+    background: rgba(2, 6, 23, 0.82);
+
+    /* blur suave, solo ambiente */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .mobile-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* =========================
+     MOBILE PANEL (MENÚ)
+     Casi sólido, elegante
+  ========================= */
+  .mobile-panel {
+    width: min(520px, 100%);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    /* 🔥 fondo MUY opaco */
+    background: rgba(15, 23, 42, 0.92);
+
+    /* degradado sutil */
+    background-image: linear-gradient(
+      180deg,
+      rgba(30, 41, 59, 0.88),
+      rgba(15, 23, 42, 0.94)
+    );
+
+    box-shadow:
+      0 24px 90px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    overflow: hidden;
+
+    transform: translateY(-10px);
+    transition: transform 180ms ease;
+  }
+
+  .mobile-overlay.open .mobile-panel {
+    transform: translateY(0);
+  }
+
+  /* =========================
+     MOBILE NAV LINKS
+  ========================= */
+  .mnavlink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 14px;
+    margin: 6px 8px;
+    border-radius: 14px;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    color: rgba(226, 232, 240, 0.92);
+    transition:
+      background 160ms ease,
+      color 160ms ease;
+  }
+
+  .mnavlink:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(253, 224, 71, 0.98);
+  }
+
+  /* =========================
+     REDUCED MOTION
+  ========================= */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-overlay,
+    .mobile-panel {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    // ------- Desktop indicator logic -------
+    const links = Array.from(document.querySelectorAll(".navlink"));
+    const indicator = document.getElementById("nav-indicator");
+
+    function setActive(link) {
+      links.forEach((l) => l.classList.toggle("is-active", l === link));
+      if (!indicator) return;
+
+      const nav = link.closest("nav");
+      const navRect = nav?.getBoundingClientRect();
+      const rect = link.getBoundingClientRect();
+      if (!navRect) return;
+
+      const left = rect.left - navRect.left;
+      indicator.style.width = `${rect.width}px`;
+      indicator.style.transform = `translateX(${left}px)`;
+    }
+
+    function getLinkById(id) {
+      return links.find((l) => l.getAttribute("data-section") === id);
+    }
+
+    function initActive() {
+      const hash = (location.hash || "").replace("#", "");
+      const fromHash = hash ? getLinkById(hash) : null;
+      const initial =
+        fromHash ??
+        links.find((l) => l.classList.contains("is-active")) ??
+        links[0];
+      if (initial) setActive(initial);
+    }
+
+    window.addEventListener("load", initActive);
+
+    links.forEach((a) => a.addEventListener("mouseenter", () => setActive(a)));
+
+    links.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("data-section");
+        const el = id ? document.getElementById(id) : null;
+        if (!el) return;
+
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `#${id}`);
+        setActive(a);
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      const active = links.find((l) => l.classList.contains("is-active"));
+      if (active) setActive(active);
+    });
+
+    // ------- Active on scroll -------
+    const sectionEls = links
+      .map((l) => document.getElementById(l.getAttribute("data-section")))
+      .filter(Boolean);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const best = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0),
+          )[0];
+        if (!best) return;
+
+        const id = best.target.id;
+        const link = getLinkById(id);
+        if (link) setActive(link);
+      },
+      { threshold: [0.35, 0.55, 0.7], rootMargin: "-10% 0px -55% 0px" },
+    );
+    sectionEls.forEach((s) => io.observe(s));
+
+    // ------- Mobile menu logic -------
+    const menuBtn = document.getElementById("menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    const closeBtn = document.getElementById("menu-close");
+    const mlinks = Array.from(document.querySelectorAll(".mnavlink"));
+
+    const lockScroll = () =>
+      document.documentElement.classList.add("overflow-hidden");
+    const unlockScroll = () =>
+      document.documentElement.classList.remove("overflow-hidden");
+
+    const openMenu = () => {
+      if (!menuBtn || !menu) return;
+      menu.classList.add("open");
+      menuBtn.setAttribute("aria-expanded", "true");
+      menu.setAttribute("aria-hidden", "false");
+      lockScroll();
+      closeBtn?.focus();
+    };
+
+    const closeMenu = () => {
+      if (!menuBtn || !menu) return;
+      menu.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menu.setAttribute("aria-hidden", "true");
+      unlockScroll();
+      menuBtn.focus();
+    };
+
+    menuBtn?.addEventListener("click", () => {
+      if (!menu) return;
+      menu.classList.contains("open") ? closeMenu() : openMenu();
+    });
+
+    closeBtn?.addEventListener("click", closeMenu);
+
+    // ✅ click en el overlay (fondo oscuro) cierra
+    menu?.addEventListener("click", (e) => {
+      if (e.target === menu) closeMenu();
+    });
+
+    // ESC para cerrar
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
+    });
+
+    // Click en link móvil: scroll + cerrar
+    mlinks.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("data-section");
+        const el = id ? document.getElementById(id) : null;
+        if (!el) return;
+
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `#${id}`);
+
+        const d = getLinkById(id);
+        if (d) setActive(d);
+
+        closeMenu();
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,179 @@
+---
+/**
+ * Timeline: 2020 -> 2026 (para que "Hoy" caiga dentro)
+ * Función para convertir (año, mes) a porcentaje 0..100
+ * Mes: 1..12
+ */
+const START_YEAR = 2020;
+const END_YEAR = 2026;
+
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+const toPct = (year, month = 1) => {
+  const totalMonths = (END_YEAR - START_YEAR) * 12;
+  const m = (year - START_YEAR) * 12 + (month - 1);
+  return clamp((m / totalMonths) * 100, 0, 100);
+};
+// Datos
+const lanes = [
+  {
+    key: "work",
+    label: "Experiencia",
+    tag: "Experiencia",
+    items: [
+      {
+        period: "Oct 2021 — Ene 2022",
+        title: "Desarrolladora Web · Federación Main",
+        desc: "Desarrollo de la estructura web, gestión de contenidos y creación de contenido digital.",
+        start: toPct(2021, 10),
+        end: toPct(2022, 1),
+        badge: "Desarrollo web",
+      },
+      {
+        period: "Mar 2022 — Jun 2022",
+        title: "Empleada en prácticas · Teltronic",
+        desc: "Desarrollo de un tablero IoT en ThingsBoard con MQTT y enchufes inteligentes.",
+        start: toPct(2022, 3),
+        end: toPct(2022, 6),
+        badge: "Prácticas DAM",
+      },
+      {
+        period: "Jul 2022 — Actualidad",
+        title: "Desarrolladora Full-Stack · Centro Zaragoza",
+        desc: "Desarrollo web con Angular y Spring Boot. Uso de APIs REST, automatización de migraciones de datos y metodología Scrum.",
+        start: toPct(2022, 7),
+        end: toPct(2026, 1),
+        badge: "Full-Stack · Scrum",
+      },
+    ],
+  },
+  {
+    key: "edu",
+    label: "Formación",
+    tag: "Formación",
+    items: [
+      {
+        period: "Sep 2020 — Jun 2022",
+        title: "Grado Superior en Desarrollo de Aplicaciones Multiplataforma · Salesianos Zaragoza",
+        desc: "Formación en programación, bases de datos, entornos de desarrollo y creación de aplicaciones multiplataforma.",
+        start: toPct(2020, 9),
+        end: toPct(2022, 6),
+      },
+      {
+        period: "Sep 2022 — Actualidad",
+        title: "Grado en Ingeniería Informática · Universidad de Castilla-La Mancha",
+        desc: "Especialidad en Tecnologías de la Información. Compaginando con experiencia profesional.",
+        start: toPct(2022, 9),
+        end: toPct(2026, 1),
+      },
+    ],
+  },
+];
+
+const years = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+
+const now = new Date();
+const rawTodayPct = toPct(now.getFullYear(), now.getMonth() + 1);
+const todayPct = clamp(rawTodayPct, 2, 98);
+
+const todayEdgeClass =
+  todayPct > 92 ? "is-edge-right" : todayPct < 8 ? "is-edge-left" : "";
+---
+
+<section id="experiencia" class="scroll-mt-24 exp-anim">
+  <h2
+    class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-100 text-center"
+  >
+    Experiencia & Formación
+  </h2>
+
+  <!-- barrita rosa pastel (usa variables del :root) -->
+  <div class="mt-4 w-16 h-1.5 bg-yellow-400 rounded-full mx-auto"></div>
+
+  <div class="timeline-shell mt-8">
+    <!-- Regla superior (años) -->
+    <div class="timeline-years reveal" aria-hidden="true">
+      {
+        years.map((y, idx) => (
+          <div
+            class={`year ${idx === 0 ? "is-first" : ""} ${idx === years.length - 1 ? "is-last" : ""}`}
+            style={`left:${toPct(y, 1)}%`}
+          >
+            <span>{y}</span>
+            <i class="tick" />
+          </div>
+        ))
+      }
+
+      <div class={`today ${todayEdgeClass}`} style={`left:${todayPct}%`}>
+        Hoy
+      </div>
+    </div>
+
+    <!-- Lanes -->
+    <div class="timeline-body">
+      {
+        lanes.map((lane) => (
+          <div class="lane lane-reveal reveal" data-lane={lane.key}>
+            <div class="lane-head">
+              <span class="lane-pill">{lane.tag}</span>
+            </div>
+
+            <div class="lane-track">
+              <div class="lane-line" aria-hidden="true" />
+
+              {lane.items.map((item, idx) => (
+                <div
+                  class="event event-reveal reveal"
+                  data-side={idx % 2 === 0 ? "below" : "above"}
+                  style={`--start:${item.start}; --end:${item.end}; --i:${idx};`}
+                >
+                  <div class="event-pin" aria-hidden="true" />
+
+                  <article class="event-card">
+                    <div class="event-period">{item.period}</div>
+                    <h3 class="event-title">{item.title}</h3>
+                    <p class="event-desc">{item.desc}</p>
+
+                    {item.badge ? (
+                      <span class="event-badge">{item.badge}</span>
+                    ) : null}
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- ✅ Un solo observer, con replay suave -->
+  <script is:inline>
+    (() => {
+      const root = document.querySelector(".exp-anim");
+      if (!root) return;
+
+      const targets = root.querySelectorAll(".reveal");
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+            } else {
+              // replay al volver a entrar
+              e.target.classList.remove("is-visible");
+            }
+          }
+        },
+        {
+          threshold: 0.18,
+          rootMargin: "0px 0px -10% 0px",
+        },
+      );
+
+      targets.forEach((t) => io.observe(t));
+    })();
+  </script>
+</section>
